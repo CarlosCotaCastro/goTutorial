@@ -3,6 +3,8 @@ export interface Lesson {
   title: string;
   description: string;
   content: string;
+  explanation: string;
+  variants: string[];
   exercise: string;
   solution: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
