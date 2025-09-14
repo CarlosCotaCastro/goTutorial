@@ -1,0 +1,34 @@
+{
+  "name": "go-tutorial-platform",
+  "version": "1.0.0",
+  "description": "The Ultimate Go Language Tutorial Platform - Interactive learning with live code execution",
+  "scripts": {
+    "start": "./start.sh",
+    "test": "./test.sh",
+    "dev": "concurrently \"cd backend && go run .\" \"cd frontend && npm run dev\"",
+    "build": "cd frontend && npm run build",
+    "backend": "cd backend && go run .",
+    "frontend": "cd frontend && npm run dev",
+    "docker:build": "cd docker && docker build -t go-executor:latest .",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "keywords": [
+    "go",
+    "golang",
+    "tutorial",
+    "learning",
+    "interactive",
+    "code-execution",
+    "education"
+  ],
+  "author": "Go Tutorial Platform",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "go": ">=1.21.0"
+  }
+}
