@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BookOpen, Lightbulb, RotateCcw, Eye, Code, ChevronDown, ChevronRight } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import type { Lesson } from '../types';
 
 interface LessonViewProps {
@@ -73,8 +74,22 @@ const LessonView: React.FC<LessonViewProps> = ({
             
             {showExplanation && (
               <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="prose prose-sm max-w-none text-blue-900 whitespace-pre-wrap">
-                  {lesson.explanation}
+                <div className="prose prose-sm max-w-none text-blue-900">
+                  <ReactMarkdown
+                    components={{
+                      h1: ({ children }) => <h1 className="text-lg font-bold mb-2 text-blue-900">{children}</h1>,
+                      h2: ({ children }) => <h2 className="text-base font-semibold mb-2 text-blue-900">{children}</h2>,
+                      h3: ({ children }) => <h3 className="text-sm font-semibold mb-1 text-blue-900">{children}</h3>,
+                      p: ({ children }) => <p className="mb-2 text-blue-900">{children}</p>,
+                      ul: ({ children }) => <ul className="list-disc list-inside mb-2 text-blue-900">{children}</ul>,
+                      ol: ({ children }) => <ol className="list-decimal list-inside mb-2 text-blue-900">{children}</ol>,
+                      li: ({ children }) => <li className="mb-1 text-blue-900">{children}</li>,
+                      strong: ({ children }) => <strong className="font-semibold text-blue-900">{children}</strong>,
+                      code: ({ children }) => <code className="bg-blue-100 px-1 py-0.5 rounded text-sm font-mono text-blue-800">{children}</code>,
+                    }}
+                  >
+                    {lesson.explanation}
+                  </ReactMarkdown>
                 </div>
               </div>
             )}

@@ -119,6 +119,38 @@ Key concepts:
 - bool - true/false values
 - byte - alias for uint8 (0-255)
 
+**When to Use var vs := (Short Declaration):**
+
+**Use var when:**
+- Declaring variables at package level
+- Declaring variables with zero values (no immediate initialization)
+- Declaring variables without immediate initialization
+- When you need explicit type control
+- In loops or conditions where := might be confusing
+
+**Use := when:**
+- Inside functions with immediate initialization
+- When type inference is clear and sufficient
+- For local variables that are initialized right away
+
+**Key Differences:**
+- var can be used at package level, := only in functions
+- var can declare without initialization, := must initialize
+- var allows explicit type declaration, := relies on type inference
+- var can redeclare in same scope, := cannot
+
+**Best Practices:**
+- Use := for local variables with immediate initialization
+- Use var for variables that need zero values or will be assigned later
+- Use var for package-level variables
+- Prefer := in most function-level scenarios for cleaner code
+- Use var when type clarity is important
+
+**Common Patterns:**
+- Error handling: var err error (assigned later)
+- Conditional initialization: var result int (set in if/else)
+- Package-level configuration: var config Config
+
 **Key Differences from Other Languages:**
 - Go doesn't allow implicit type conversions
 - Variables must be used (unused variables cause compilation errors)
@@ -130,7 +162,7 @@ Key concepts:
 import "fmt"
 
 func main() {
-    // Different ways to declare variables
+    // Using var for explicit type declaration
     var name string = "Alice"
     var age int = 25
     var isStudent bool = true
@@ -142,7 +174,7 @@ func main() {
 import "fmt"
 
 func main() {
-    // Using type inference
+    // Using := for type inference (preferred for local variables)
     name := "Bob"
     age := 30
     salary := 50000.50
@@ -156,18 +188,18 @@ func main() {
 import "fmt"
 
 func main() {
-    // Constants and multiple declarations
-    const pi = 3.14159
-    const company = "TechCorp"
+    // Using var for variables assigned later (common pattern)
+    var result int
+    var err error
     
-    var (
-        firstName = "Charlie"
-        lastName  = "Brown"
-        id        = 12345
-    )
+    // Variable will be assigned based on condition
+    if true {
+        result = 42
+    } else {
+        result = 0
+    }
     
-    fmt.Printf("Employee: %s %s (ID: %d) at %s\n", 
-               firstName, lastName, id, company)
+    fmt.Printf("Result: %d, Error: %v\n", result, err)
 }`,
 			},
 			Exercise: `Create variables of different types and print them:
