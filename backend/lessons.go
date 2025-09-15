@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -1260,23 +1261,34 @@ func main() {
 	}
 }
 
-// getLessons returns all available lessons
+// getLessons returns all available lessons from the database
 func getLessons(c *gin.Context) {
-	lessons := getTutorialLessons()
+	lessons, err := database.GetLessons()
+	if err != nil {
+		log.Printf("Error getting lessons: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get lessons"})
+		return
+	}
 	c.JSON(http.StatusOK, lessons)
 }
 
-// getLesson returns a specific lesson by ID
+// getLesson returns a specific lesson by ID from the database
 func getLesson(c *gin.Context) {
 	lessonID := c.Param("id")
-	lessons := getTutorialLessons()
 
-	for _, lesson := range lessons {
-		if fmt.Sprintf("%d", lesson.ID) == lessonID {
-			c.JSON(http.StatusOK, lesson)
-			return
-		}
+	// Convert string to int
+	var id int
+	if _, err := fmt.Sscanf(lessonID, "%d", &id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid lesson ID"})
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{"error": "Lesson not found"})
+	lesson, err := database.GetLesson(id)
+	if err != nil {
+		log.Printf("Error getting lesson %d: %v", id, err)
+		c.JSON(http.StatusNotFound, gin.H{"error": "Lesson not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, lesson)
 }
